@@ -195,7 +195,14 @@ if("FLOW_MODE".equals(mode)){
 						if (errorMessage_<%=cid%>==null || errorMessage_<%=cid%>.length()<1) {
 							<%=outConnName%>.<%=column.getLabel()%> = <%=inConnName%>.<%=column.getLabel()%>;
 						}
+						<%
+						if(rejectConnName!=null){
+						%>
+						else {
+						    <%=rejectConnName%>.<%=column.getLabel()%> = <%=inConnName%>.<%=column.getLabel()%>;
+						}
 <%
+                    }
 	    		}
 	    	}
 	    }
