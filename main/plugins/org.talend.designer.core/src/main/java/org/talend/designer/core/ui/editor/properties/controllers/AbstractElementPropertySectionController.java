@@ -1925,15 +1925,6 @@ public abstract class AbstractElementPropertySectionController implements Proper
                         break;
                     }
                 }
-                if (connectionNode == null) {
-                    nodes = part.getProcess().getGeneratingNodes();
-                    for (INode node : nodes) {
-                        if (node.getUniqueName().equals(compValue) && (node instanceof INode)) {
-                            connectionNode = node;
-                            break;
-                        }
-                    }
-                }
                 if (connectionNode != null) {
                     setAllConnectionParameters(type, connectionNode);
                 }
