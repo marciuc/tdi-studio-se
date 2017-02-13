@@ -27,8 +27,10 @@ import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.fieldassist.IControlCreator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -40,6 +42,7 @@ import org.talend.core.model.process.IElementParameter;
 import org.talend.core.model.process.INode;
 import org.talend.core.model.utils.TalendTextUtils;
 import org.talend.core.ui.properties.tab.IDynamicProperty;
+import org.talend.designer.core.generic.constants.IGenericConstants;
 import org.talend.designer.core.generic.model.GenericElementParameter;
 import org.talend.designer.core.i18n.Messages;
 import org.talend.designer.core.model.components.EParameterName;
@@ -48,7 +51,7 @@ import org.talend.designer.core.ui.editor.nodes.Node;
 import org.talend.designer.core.ui.editor.properties.controllers.AbstractElementPropertySectionController;
 
 /**
- *
+ * 
  * created by ycbai on 2015年10月21日 Detailled comment
  *
  */
@@ -99,7 +102,7 @@ public class ComponentRefController extends AbstractElementPropertySectionContro
                                             props.referenceType
                                                     .setValue(ComponentReferenceProperties.ReferenceType.THIS_COMPONENT);
                                             props.componentInstanceId.setValue(null);
-                                            props.setReference(null);
+                                            props.componentProperties = null;
                                         } else {
                                             props.referenceType
                                                     .setValue(ComponentReferenceProperties.ReferenceType.COMPONENT_INSTANCE);
@@ -109,10 +112,10 @@ public class ComponentRefController extends AbstractElementPropertySectionContro
                                                     && gParameter.getElement() instanceof Node) {
                                                 Node node = (Node) gParameter.getElement();
                                                 List<INode> refNodes = (List<INode>) node.getProcess().getNodesOfType(
-                                                        props.referenceDefinitionName.getStringValue());
+                                                        props.componentType.getStringValue());
                                                 for (INode refNode : refNodes) {
                                                     if (refNode.getUniqueName() != null && refNode.getUniqueName().equals(value)) {
-                                                        props.setReference(refNode.getComponentProperties());
+                                                        props.componentProperties = refNode.getComponentProperties();
                                                     }
                                                 }
                                             }
@@ -179,6 +182,7 @@ public class ComponentRefController extends AbstractElementPropertySectionContro
 
         GenericElementParameter gParam = (GenericElementParameter) param;
         ComponentReferenceProperties props = (ComponentReferenceProperties) gParam.getWidget().getContent();
+        props.componentInstanceId.setTaggedValue(IGenericConstants.ADD_QUOTES, true);
 
         combo.addSelectionListener(new SelectionAdapter() {
 
@@ -298,7 +302,7 @@ public class ComponentRefController extends AbstractElementPropertySectionContro
             GenericElementParameter gParameter = (GenericElementParameter) param;
             if (gParameter != null && gParameter.getElement() != null && gParameter.getElement() instanceof Node) {
                 Node node = (Node) gParameter.getElement();
-                refNodes = (List<INode>) node.getProcess().getNodesOfType(props.referenceDefinitionName.getStringValue());
+                refNodes = (List<INode>) node.getProcess().getNodesOfType(props.componentType.getStringValue());
             }
         }
         return refNodes;

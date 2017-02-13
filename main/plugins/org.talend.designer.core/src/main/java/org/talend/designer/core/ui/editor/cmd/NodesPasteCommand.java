@@ -601,7 +601,7 @@ public class NodesPasteCommand extends Command {
                 pastedNodeList.add((Node) pastedNode);
             }
             nodeContainerList.add(nc);
-            if (selectedExpandedJoblet != null && selectedExpandedJoblet.contains(copiedNodePart)) {
+            if (selectedExpandedJoblet.contains(copiedNodePart)) {
                 jobletNodeToExpand.add(nc);
             }
         }
